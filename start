@@ -1,0 +1,74 @@
+<?php
+// Создание константы (Адрес корневой папки парсера).
+define('ROOT', dirname(__FILE__));
+
+// Подключение авто-загрузчика классов.
+require(ROOT . '/vendor/autoload.php');
+
+// Пространство имен классов.
+use app\Url;
+use app\Links;
+use app\Images;
+use app\Report;
+
+
+echo "\n Парсер картинок і посилань \n";
+echo "\nПерелік можливих команд: help";
+$comand = readline("\nВведіть команду для виконання: ");
+function readComand($comand)
+{
+    switch ($comand) {
+        case 'help':
+            echo "\nparse - Запуск парсера. Приймає обов'язковий параметр URL (як із протоколом, так і без)." .
+                "\nreport - Виводить у консолі результати аналіза для домена. Приймає обов'язковий параметр domain (як із протоколом, так і без)." .
+                "\nhelp - Виводить перелік команд із поясненням.\n";
+                "\nexit - Вихід.\n";
+            $subСomand = readline("\nВведіть команду для виконання: ");
+            readComand($subСomand);
+            break;
+
+        case 'parse':
+            $url = readline('Введіть адрес сторінки для парсингу: ');
+            $content = new Url($url);
+            $site_content = $content->siteContent(); // Все содержимое на указаной странице.
+
+            $link = new Links;
+            $list_links = $link->listLinks($site_content, $url); // Список ссылок на указаном адрессе.
+
+            $image = new Images;
+            $list_image = $image->listImage($site_content, $url); // Список картинок на указаном адрессе.
+
+            $report = new Report;
+            if (!is_dir(ROOT . '/report_files/')) {
+                mkdir(ROOT . '/report_files/', 0700);
+            }
+            $report->reportCSV($list_links, ROOT . '/report_files/' . DOMAIN . '_List_Links.csv'); // Сохраняем список ссылок.
+            $report->reportCSV($list_image, ROOT . '/report_files/' . DOMAIN . '_List_Image.csv'); // Сохраняем список изображений.
+
+            echo "\n\nНайдено посилань: " . (count($list_links) - 1) .
+                "\nНайдено зображень: " . (count($list_image) - 1) .
+                "\nПерелік знайдених посилань знаходиться: " . ROOT . '/report_files/' . DOMAIN . '_List_Links.csv' .
+                "\nПерелік знайдених зображень знаходиться: " . ROOT . '/report_files/' . DOMAIN . '_List_Image.csv' . "\n";
+
+
+            $subСomand = readline("\nВведіть команду для виконання: ");
+            readComand($subСomand);
+            break;
+        case 'report':
+            $report_list = new Report;
+            $domain = readline('Введіть домен сторінки, для пошуку збігу із найденими даними: ');
+            $report_list->viewsReportCSV($domain);
+
+            $subСomand = readline("\n Введіть команду для виконання: ");
+            readComand($subСomand);
+            break;
+        case 'exit':
+            exit;
+            break;
+
+        default:
+            readComand('help');
+            break;
+    }
+}
+readComand($comand);
