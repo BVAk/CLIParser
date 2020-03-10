@@ -36,7 +36,7 @@ class Links
 
         $f_link = array_unique($f_urls_link); // Проверка на дубливование.
 
-        array_unshift($f_link, "Source link: " . $url . "\n");
+        array_unshift($f_link, "Source link: " . $url . "\n", '');
 
         return $f_link;
     }

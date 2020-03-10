@@ -43,11 +43,12 @@ function readComand($comand)
             if (!is_dir(ROOT . '/report_files/')) {
                 mkdir(ROOT . '/report_files/', 0700);
             }
+            
             $report->reportCSV($list_links, ROOT . '/report_files/' . $domain . '_List_Links.csv'); // Сохраняем список ссылок.
             $report->reportCSV($list_image, ROOT . '/report_files/' . $domain . '_List_Image.csv'); // Сохраняем список изображений.
 
-            echo "\n\nНайдено посилань: " . (count($list_links) - 1) .
-                "\nНайдено зображень: " . (count($list_image) - 1) .
+            echo "\n\nНайдено посилань: " . (count($list_links) - 2) .
+                "\nНайдено зображень: " . (count($list_image) - 2) .
                 "\nПерелік знайдених посилань знаходиться: " . ROOT . '/report_files/' . $domain . '_List_Links.csv' .
                 "\nПерелік знайдених зображень знаходиться: " . ROOT . '/report_files/' . $domain . '_List_Image.csv' . "\n";
 

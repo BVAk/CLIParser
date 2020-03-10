@@ -33,7 +33,7 @@ class Report
             $arr_link = fgetcsv($f_link);
             fclose($f_link);
 
-            echo "\n\Знайдено посилань: " . count($arr_link) .
+            echo "\nЗнайдено посилань: " . (count($arr_link)-2) .
                 "\nЗвіт із переліком посилань домена: " . $fl_link;
         } else {
             echo "\n\nНе знайдено файлів звіту із переліком посилань домена!\n";
@@ -46,12 +46,12 @@ class Report
             $arr_img = fgetcsv($f_image);
             fclose($f_image);
 
-            echo "\n\Знайдено зображень: " . count($arr_img) .
+            echo "\nЗнайдено зображень: " . (count($arr_img)-2) .
                 "\nЗвіт із переліком зображень домена: " . $fl_img . "\n";
-            exit();
+            
         } else {
             echo "\n\nНе знайдено файлів звіту із переліком зображень домена!\n";
-            exit();
+            
         }
     }
 

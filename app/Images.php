@@ -32,7 +32,7 @@ class Images
 
         array_unshift(
             $f_pictures_link,
-            "Source link: " . $url . "\n"
+            "Source link: " . $url . "\n", ''
         );
 
         return $f_pictures_link;
