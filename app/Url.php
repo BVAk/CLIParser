@@ -4,15 +4,17 @@ namespace app;
 
 class Url
 {
-    public $url;
+    public $url='';
+    public $domain;
 
     public function __construct($url)
     {
         $this->url = $url;
     }
 
-    public function siteContent()
+    public function domainContent()
     {
+       
         // Получение URL сайта.
 
         // Ограничение: минимальная длина ссылки 4 символа.
@@ -30,9 +32,11 @@ class Url
 
     // Определяем домен
         $segment = explode('/', $this->url);
-        define('DOMAIN', $segment[2]);
+        $domain= $segment[2];
 
-
+return $domain;}
+public function siteContent()
+{
     
         $curl = curl_init(); // создание нового ресурса cURL 
 //установка параметров

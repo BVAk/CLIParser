@@ -3,15 +3,15 @@ namespace app;
 class Images
 {
 // Поиск картинок
-    public function listImage($site, $url)
+    public function listImage($site, $url,$domain)
     {
-        preg_match_all('#<img.+?src="(.+?)".+?>#', $site, $result);
+        preg_match_all('/<img.+?src="(.*?)"/s', $site, $result);
 
         //Валидация сылок на картинки
         foreach ($result[1] as $item) {
             $corectSrc=preg_match('#http#',$item);
             if ($corectSrc== 0){
-                $item = DOMAIN . '/' . $item;
+                $item = $domain . '/' . $item;
             }
             $pictures[] = $item;
         }
